@@ -4,13 +4,13 @@ Esse projeto foi criado com a intenção de desenvolver um pequeno App relaciona
 
 ## Como executar esse projeto
 
-1. Clonar o repositório e ir até o diretório **dev-android-vortigo/PokemonVortigo/**
+1. Clonar o repositório e ir até o diretório **pokemon-finder/PokemonFinder/**
 ```
 git clone git@gitlab.com:leosampc/dev-android-vortigo.git
 ```
-2. acessar o diretório **dev-android-vortigo/PokemonVortigo/**
+2. acessar o diretório **pokemon-finder/PokemonFinder/**
 ```
-cd dev-android-vortigo/PokemonVortigo/
+cd pokemon-finder/PokemonFinder/
 ```
 3. Executar o instalador de pacotes do npm para gerar a pasta node_modules/ com todas as dependências do projeto
 ```
@@ -20,7 +20,7 @@ npm install
 ```
 react-native upgrade --legacy true
 ```
-5. Abrir o diretório dev-android-vortigo/PokemonVortigo/**android/** no Android Studio e esperar a aplicação executar o build do App
+5. Abrir o diretório pokemon-finder/PokemonFinder/**android/** no Android Studio e esperar a aplicação executar o build do App
 6. Com a configuração do projeto sincronizada no Android Studio, iniciar o **Android Virtual Device**, em: *Tools => AVD Manager*
 7. Em uma aba do terminal, executar o comando para iniciar o servidor responsável por rodar a nossa aplicação no emulador
 ```
