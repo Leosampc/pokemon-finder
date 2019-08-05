@@ -6,7 +6,7 @@ Esse projeto foi criado com a intenção de desenvolver um pequeno App relaciona
 
 1. Clonar o repositório e ir até o diretório **pokemon-finder/PokemonFinder/**
 ```
-git clone git@gitlab.com:leosampc/dev-android-vortigo.git
+git clone https://github.com/Leosampc/pokemon-finder.git
 ```
 2. acessar o diretório **pokemon-finder/PokemonFinder/**
 ```
