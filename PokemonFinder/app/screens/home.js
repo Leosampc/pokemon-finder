@@ -39,35 +39,37 @@ class HomeScreen extends React.Component {
         await AsyncStorage.getItem('USUARIO') //busca os dados da key 'USUARIO'
             .then(res => {
                 let usuario = JSON.parse(res) //"parseia" o res
-                this.setState({ usuario }, () => { //seta os dados de usuario
-                    AsyncStorage.getItem('TIPOS') //busca os dados da key 'TIPOS'
-                        .then(res => {
-                            let types = JSON.parse(res) //"parseia" o res
-                            this.setState({ types }, () => { //seta os dados de tipos
-                                AsyncStorage.getItem('POKEMONS') //busca os dados da key 'POKEMONS'
-                                    .then(res => {
-                                        let pokemonsAll = JSON.parse(res) //"parseia" o res
-                                        this.setState({ pokemonsAll }, () => { //seta os dados de pokemons
-                                            this._searchPokemonsByType(this.state.usuario.type) //passa o tipo preferido do usuário para o método que busca os pokemons pelo tipo
-                                            this.setState({ loadingScreen: false }) //desativa o loading
-                                        })
-                                    })
-                            })
-                        })
-                }) 
+                this.setState({ usuario }) 
             })
+            
+        await AsyncStorage.getItem('TIPOS') //busca os dados da key 'TIPOS'
+            .then(res => {
+                let types = JSON.parse(res) //"parseia" o res
+                this.setState({ types })
+            })
+
+        await AsyncStorage.getItem('POKEMONS') //busca os dados da key 'POKEMONS'
+            .then(res => {
+                let pokemonsAll = JSON.parse(res) //"parseia" o res
+                this.setState({ pokemonsAll })
+            })
+            
+        this._searchPokemonsByType(this.state.usuario.type) //passa o tipo preferido do usuário para o método que busca os pokemons pelo tipo
+        this.setState({ loadingScreen: false }) //desativa o loading    
     }
 
-    _searchPokemonsByType = type => { //pesquisa todos os pokemons relacionados á um determinado tipo
-        this.setState({ type, loadingPokemons: true }, () => { //seta o novo tipo e altera o state que controla o carregamento dos pokemons para true
-            AsyncStorage.setItem('USUARIO', JSON.stringify({ name: this.state.usuario.name, type: type }))
-            const newPokemonsType = this.state.pokemonsAll.filter(item => { //percorre o objeto de pokemons atribuindo à uma const
-                const typeData = type.toLowerCase() //transforma o texto em minúsculo
-                return item.type.indexOf(typeData) > -1 //retorna caso o atributo String "type" do objeto possua o tipo recebido
-            })
-            this.setState({ pokemonsType: newPokemonsType, pokemonsScreen: newPokemonsType, search: '' }, () => { //atualiza o state de pokemons e esvazia o campo de busca
-                this.setState({ loadingPokemons: false }) //atualiza o state que controla o carregamento dos pokemons pra false após a conclusao do processo
-            })
+    _searchPokemonsByType = async type => { //pesquisa todos os pokemons relacionados á um determinado tipo
+        await this.setState({ type, loadingPokemons: true })
+        
+        await AsyncStorage.setItem('USUARIO', JSON.stringify({ name: this.state.usuario.name, type: type }))
+
+        const newPokemonsType = this.state.pokemonsAll.filter(item => { //percorre o objeto de pokemons atribuindo à uma const
+            const typeData = type.toLowerCase() //transforma o texto em minúsculo
+            return item.type.indexOf(typeData) > -1 //retorna caso o atributo String "type" do objeto possua o tipo recebido
+        })
+
+        this.setState({ pokemonsType: newPokemonsType, pokemonsScreen: newPokemonsType, search: '' }, () => { //atualiza o state de pokemons e esvazia o campo de busca
+            this.setState({ loadingPokemons: false }) //atualiza o state que controla o carregamento dos pokemons pra false após a conclusao do processo
         })
     }
 

@@ -26,21 +26,21 @@ class IndexScreen extends React.Component {
     }
 
     async componentDidMount() {
-        AsyncStorage.getItem('USUARIO').then((res) => { //Caso possua a key 'USUARIO'
+        await AsyncStorage.getItem('USUARIO').then((res) => { //Caso possua a key 'USUARIO'
             usuario = JSON.parse(res) //"parseia os dados"
             this.setState({ usuario }) //seta o state
         }).catch(error => {
             console.log(error);
         })
 
-        AsyncStorage.getItem('TIPOS').then((res) => { //Caso possua a key 'TIPOS'
+        await AsyncStorage.getItem('TIPOS').then((res) => { //Caso possua a key 'TIPOS'
             types = JSON.parse(res); //"parseia os dados"
             this.setState({ types }) //seta o state
         }).catch(error => {
             console.log(error);
         })
 
-        AsyncStorage.getItem('POKEMONS').then((res) => { //Caso possua a key 'POKEMONS'
+        await AsyncStorage.getItem('POKEMONS').then((res) => { //Caso possua a key 'POKEMONS'
             pokemonsAll = JSON.parse(res); //"parseia os dados"
             this.setState({ pokemonsAll }) //seta o state
         }).catch(error => {
@@ -76,16 +76,13 @@ class IndexScreen extends React.Component {
 
         if(this.state.types && this.state.pokemonsAll) { //caso os state 'types' e 'pokemonsAll' não sejam nulos, ou seja, caso o App tenha encontrado os dados na memória (AsyncStorage) ou por fetch
             await AsyncStorage.setItem('TIPOS', JSON.stringify(this.state.types)) //seta a key 'TIPOS' armazenando todos os tipos
-                .then(res => {
-                    AsyncStorage.setItem('POKEMONS', JSON.stringify(this.state.pokemonsAll)) //seta a key 'POKEMONS' armazenando todos os pokemons
-                        .then(res => {
-                            if (this.state.usuario !== null) { //caso o state usuario não seja nulo, ou seja, caso o App tenha encontrado os dados na memória (AsyncStorage)
-                                this.props.navigation.navigate('HomeStack') //Redireciona direto pra tela 'HomeScreen' (tela que lista os pokemons)
-                            } else { //caso contrario
-                                this.props.navigation.navigate('CadastroStack') //Redireciona para a rota inicial de cadastro do usuario
-                            }
-                        })
-                })
+            await AsyncStorage.setItem('POKEMONS', JSON.stringify(this.state.pokemonsAll)) //seta a key 'POKEMONS' armazenando todos os pokemons
+            
+            if (this.state.usuario !== null) { //caso o state usuario não seja nulo, ou seja, caso o App tenha encontrado os dados na memória (AsyncStorage)
+                this.props.navigation.navigate('HomeStack') //Redireciona direto pra tela 'HomeScreen' (tela que lista os pokemons)
+            } else { //caso contrario
+                this.props.navigation.navigate('CadastroStack') //Redireciona para a rota inicial de cadastro do usuario
+            }
         } else { //caso contrário
             Alert.alert( //emite um alerta relatando o caso para o usuário
                 'Problema de conexão',
